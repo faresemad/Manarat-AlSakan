@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 
 from environs import Env
@@ -47,7 +48,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -99,6 +100,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -108,9 +114,37 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Added by me
 # -----------------------------------------------------------------------
 AUTH_USER_MODEL = "accounts.User"
+API_PREFIX = "api/v1/"
+ADMIN_URL = "admin/"
+PROTOCOL = "https"
+DOMAIN = "server.manarat-elsakan.com"
+ACTIVATE_ACCOUNT_URL = "accounts/users/activation/"
+RESET_PASS_CONFIRM_URL = "accounts/users/reset_password_confirm/"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+}
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT", "Bearer"),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+}
+
+DJOSER = {
+    "ACTIVATION_URL": "accounts/activate-account/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "accounts/password-reset-account/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
+    "SEND_CONFIRMATION_EMAIL": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "SET_PASSWORD_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_RETYPE": True,
+    "PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND": True,
+    "TOKEN_MODEL": False,
+    "SERIALIZERS": {
+        "user_create": "apps.accounts.api.serializers.UserSerializer",
+        "user": "apps.accounts.api.serializers.UserSerializer",
+        "user_delete": "djoser.serializers.UserDeleteSerializer",
+    },
 }
