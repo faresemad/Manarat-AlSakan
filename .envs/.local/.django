@@ -1,0 +1,4 @@
+SECRET_KEY=django-insecure-u97!+%92@smvr8q(&mb^cjg49*ygcj_ko*+7faw+f42nk*8l8k
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+DATABASE_URL=sqlite:///db.sqlite3
