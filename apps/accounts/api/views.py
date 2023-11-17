@@ -1,15 +1,11 @@
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 
 from apps.accounts.api.serializers import UserSerializer
 from apps.accounts.models import User
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(
+    mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet
+):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # permission_classes = [IsAuthenticated]
-    # authentication_classes = [TokenAuthentication]
-    # filter_backends = [SearchFilter, OrderingFilter]
-    # search_fields = ["name", "national_id", "email", "phone", "role"]
-    # ordering_fields = ["name", "national_id", "email", "phone", "role"]
-    # pagination_class = UserPagination
