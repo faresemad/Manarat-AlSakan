@@ -5,3 +5,16 @@ SECRET_KEY=django-insecure-u97!+%92@smvr8q(&mb^cjg49*ygcj_ko*+7faw+f42nk*8l8k
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 DATABASE_URL=sqlite:///db.sqlite3
+
+
+#  Email
+# ------------------------------------------------------------------------------
+EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT = 587
+EMAIL_HOST_USER =localhost
+EMAIL_HOST_PASSWORD =apoorv@123
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = webmaster@localhost
+SERVER_EMAIL = webmaster@localhost
