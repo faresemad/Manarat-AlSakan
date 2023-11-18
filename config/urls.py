@@ -18,4 +18,5 @@ urlpatterns += [
 
 urlpatterns += [
     path(f"{settings.API_PREFIX}accounts/", include("apps.accounts.api.urls")),
+    path(f"{settings.API_PREFIX}estates/", include("apps.estates.api.urls")),
 ]
