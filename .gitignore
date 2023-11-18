@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+# Media Files
+media/
 # Distribution / packaging
 .Python
 build/
