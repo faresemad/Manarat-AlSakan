@@ -114,23 +114,38 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Added by me
 # -----------------------------------------------------------------------
 AUTH_USER_MODEL = "accounts.User"
+# API version
 API_PREFIX = "api/v1/"
+
+# Admin url
 ADMIN_URL = "admin/"
+
 PROTOCOL = "https"
+
 DOMAIN = "server.manarat-elsakan.com"
+
+# Activate account url
 ACTIVATE_ACCOUNT_URL = "accounts/users/activation/"
+
+# Reset password url
 RESET_PASS_CONFIRM_URL = "accounts/users/reset_password_confirm/"
+
+# Rest Framework settings
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "EXCEPTION_HANDLER": "apps.utils.exceptions.custom_exception_handler",
 }
+
+# Simple JWT settings
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT", "Bearer"),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
 }
 
+# Djoser settings
 DJOSER = {
     "ACTIVATION_URL": "accounts/activate-account/{uid}/{token}",
     "PASSWORD_RESET_CONFIRM_URL": "accounts/password-reset-account/{uid}/{token}",
