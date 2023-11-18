@@ -1,8 +1,8 @@
 from django.contrib import admin  # noqa
 
-from apps.estates.models import Building, BuildingImage
+from apps.estates.models import Estate, EstateImage
 
 # Register your models here.
 
-admin.site.register(Building)
-admin.site.register(BuildingImage)
+admin.site.register(Estate)
+admin.site.register(EstateImage)

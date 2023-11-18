@@ -6,7 +6,7 @@ from django.db import models
 User = get_user_model()
 
 
-class Building(models.Model):
+class Estate(models.Model):
     class RequestState(models.TextChoices):
         PENDING = "PENDING"
         APPROVED = "APPROVED"
@@ -30,8 +30,8 @@ class Building(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Building"
-        verbose_name_plural = "Buildings"
+        verbose_name = "Estate"
+        verbose_name_plural = "Estates"
         ordering = ["-created_at"]
         indexes = [
             models.Index(fields=["id", "name", "location"]),
@@ -39,13 +39,13 @@ class Building(models.Model):
         unique_together = ["name", "location"]
 
 
-class BuildingImage(models.Model):
-    building = models.ForeignKey(Building, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="building_images/")
+class EstateImage(models.Model):
+    estates = models.ForeignKey(Estate, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to="estates_images/")
 
     def __str__(self):
-        return self.building.name
+        return self.estates.name
 
     class Meta:
-        verbose_name_plural = "Building Images"
-        verbose_name = "Building Image"
+        verbose_name_plural = "Estate Images"
+        verbose_name = "Estate Image"
