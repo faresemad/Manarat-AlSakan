@@ -27,7 +27,6 @@ class EstateSerializer(serializers.ModelSerializer):
             "location",
             "owner",
             "description",
-            "slug",
             "num_units",
             "architecturally_designed",
             "construction_date",

@@ -18,7 +18,7 @@ class Estate(models.Model):
     location = models.CharField(max_length=255)
     owner = models.CharField(max_length=255)
     description = models.JSONField()
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     num_units = models.IntegerField()
     architecturally_designed = models.BooleanField(default=True)
     construction_date = models.DateField()
@@ -28,6 +28,10 @@ class Estate(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self):
+        self.slug = self.name.replace(" ", "-").lower()
+        super().save()
 
     class Meta:
         verbose_name = "Estate"
