@@ -1,11 +1,11 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import IsAuthenticated
 
 
-class IsSeller(BasePermission):
+class IsSeller(IsAuthenticated):
     def has_permission(self, request, view):
         return request.user.role == "seller"
 
 
-class IsBuyer(BasePermission):
+class IsBuyer(IsAuthenticated):
     def has_permission(self, request, view):
         return request.user.role == "buyer"
