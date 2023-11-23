@@ -10,6 +10,7 @@ class EstatsViewSet(viewsets.ModelViewSet):
     queryset = Estate.objects.all()
     serializer_class = EstateSerializer
     filterset_class = EstateFilter
+    lookup_field = "slug"
 
     def get_permissions(self):
         if self.action == "create":

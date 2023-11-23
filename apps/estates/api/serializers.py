@@ -22,6 +22,7 @@ class EstateSerializer(serializers.ModelSerializer):
         model = Estate
         fields = (
             "id",
+            "slug",
             "user",
             "name",
             "property_type",
@@ -33,7 +34,6 @@ class EstateSerializer(serializers.ModelSerializer):
             "status",
             "data",
             "description",
-            "slug",
             "added_at",
             "additional_info",
             "latitude",
