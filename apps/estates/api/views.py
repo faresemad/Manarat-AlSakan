@@ -7,7 +7,7 @@ from apps.utils.permissions import IsOwnerOrReadOnly, IsSeller
 
 
 class EstatsViewSet(viewsets.ModelViewSet):
-    queryset = Estate.objects.all()
+    queryset = Estate.objects.filter(status=Estate.RequestState.APPROVED)
     serializer_class = EstateSerializer
     filterset_class = EstateFilter
     lookup_field = "slug"
