@@ -12,31 +12,47 @@ class Estate(models.Model):
         APPROVED = "APPROVED"
         REJECTED = "REJECTED"
 
+    class PropertyType(models.TextChoices):
+        APARTMENT = "APARTMENT"
+        BUNGALOW = "BUNGALOW"
+        DUPLEX = "DUPLEX"
+        FLAT = "FLAT"
+        HOUSE = "HOUSE"
+        MANSION = "MANSION"
+        PENTHOUSE = "PENTHOUSE"
+        TERRACED = "TERRACED"
+        TOWNHOUSE = "TOWNHOUSE"
+        VILLA = "VILLA"
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    property_type = models.CharField(max_length=20, choices=PropertyType.choices)
+    num_rooms = models.IntegerField()
+    num_bathrooms = models.IntegerField()
+    total_area = models.FloatField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.CharField(max_length=255)
-    owner = models.CharField(max_length=255)
-    description = models.JSONField()
+    status = models.CharField(max_length=10, choices=RequestState.choices, default=RequestState.PENDING)
+    data = models.JSONField(null=True, blank=True)
+    description = models.TextField()
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    num_units = models.IntegerField()
-    architecturally_designed = models.BooleanField(default=True)
-    construction_date = models.DateField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    request_state = models.CharField(max_length=10, choices=RequestState.choices, default=RequestState.PENDING)
+    added_at = models.DateTimeField(auto_now_add=True)
+    additional_info = models.TextField(null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.name
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.slug = self.name.replace(" ", "-").lower()
-        super().save()
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Estate"
         verbose_name_plural = "Estates"
-        ordering = ["-created_at"]
+        ordering = ["-added_at"]
         indexes = [
             models.Index(fields=["id", "name", "location"]),
         ]
