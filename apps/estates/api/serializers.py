@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.estates.models import Estate, EstateImage
+from apps.estates.models import Estate, EstateImage, EstateRating
 
 
 class EstateImageSerializer(serializers.ModelSerializer):
@@ -17,6 +17,7 @@ class EstateSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False,
     )
+    rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Estate
@@ -38,6 +39,7 @@ class EstateSerializer(serializers.ModelSerializer):
             "additional_info",
             "latitude",
             "longitude",
+            "rating",
             "images",
             "upload_images",
         )
@@ -53,3 +55,25 @@ class EstateSerializer(serializers.ModelSerializer):
         for image in images:
             EstateImage.objects.create(estates=estate, image=image)
         return estate
+
+    def get_rating(self, obj):
+        ratings = EstateRating.objects.filter(estates=obj)
+        if ratings:
+            return sum([rating.rating for rating in ratings]) / len(ratings)
+        return 0
+
+
+class EstateRatingCreateSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = EstateRating
+        fields = ("user", "estates", "rating")
+
+
+class EstateRatingListSerializer(serializers.ModelSerializer):
+    estates = EstateSerializer(read_only=True)
+
+    class Meta:
+        model = EstateRating
+        fields = ("estates", "rating")
