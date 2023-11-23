@@ -1,6 +1,7 @@
 import uuid
 
 from django.contrib.auth import get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 User = get_user_model()
@@ -69,3 +70,16 @@ class EstateImage(models.Model):
     class Meta:
         verbose_name_plural = "Estate Images"
         verbose_name = "Estate Image"
+
+
+class EstateRating(models.Model):
+    estates = models.ForeignKey(Estate, on_delete=models.CASCADE, related_name="ratings")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+    def __str__(self):
+        return f"{self.estates.name} - {self.rating}"
+
+    class Meta:
+        verbose_name_plural = "Estate Ratings"
+        verbose_name = "Estate Rating"
