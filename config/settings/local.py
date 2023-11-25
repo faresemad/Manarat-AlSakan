@@ -1,19 +1,22 @@
+from decouple import Csv, config
+from dj_database_url import parse as db_url
+
 from .base import *  # noqa
-from .base import env  # noqa
 
-SECRET_KEY = env.str("SECRET_KEY", default="django-insecure-u97!+%92@smvr8q(&mb^cjg49*ygcj_ko*+7faw+f42nk*8l8k")
+SECRET_KEY = config("SECRET_KEY")
 
-DEBUG = env.bool("DEBUG", default=True)
+DEBUG = config("DEBUG")
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOST", default=["localhost", "127.0.0.1"])
-DATABASES = {"default": env.dj_db_url("DATABASE_URL", default="sqlite:///db.sqlite3")}
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
-EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
-EMAIL_HOST = env("EMAIL_HOST", default="localhost")
-EMAIL_PORT = env("EMAIL_PORT", default=1025)
-EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-EMAIL_USE_TLS = env("EMAIL_USE_TLS", default=False)
-EMAIL_USE_SSL = env("EMAIL_USE_SSL", default=False)
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
-SERVER_EMAIL = env("SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
+DATABASES = {"default": config("DATABASE_URL", cast=db_url)}
+
+EMAIL_BACKEND = config("EMAIL_BACKEND")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_USE_SSL = config("EMAIL_USE_SSL")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+SERVER_EMAIL = config("SERVER_EMAIL")
